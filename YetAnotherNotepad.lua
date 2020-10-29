@@ -22,7 +22,8 @@ local List
 -- Init Feed --
 ---------------
 
-local function Feed_OnClick(_, button)
+local function Feed_OnClick(_, _) --luacheck: ignore 211
+    -- _ , button
     YAnotepad:Show()
 end
 
@@ -30,12 +31,12 @@ local function Feed_NoteEdit(_, id)
     YAnotepad:Edit(id)
 end
 
-local function Feed_OnEnter(anchor)
-    local k, v, i, headline, line
+local function Feed_OnEnter(anchor) --luacheck: ignore 211
+    local headline, line
 
-    for k, v in QTip:IterateTooltips() do
-        if( type(k) == "string" and k == "YetAnotherNotepad" ) then
-            v:Release(k);
+    for qk, qv in QTip:IterateTooltips() do
+        if( type(qk) == "string" and qk == "YetAnotherNotepad" ) then
+            qv:Release(qk);
             YAnotepad.tooltip = nil
         end
     end
@@ -59,15 +60,13 @@ function YAnotepad:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("YAnotepadDB", defaults, true);
 end
 
-local List
-
-function YAnotepad:ChatCommand(input)
+function YAnotepad:ChatCommand(input) --luacheck: ignore 212
     if not input or input:trim() == "" then
         YAnotepad:Show()
     end
 end
 
-function YAnotepad:OnEnable()
+function YAnotepad:OnEnable() --luacheck: ignore 212
 
 end
 
@@ -81,7 +80,7 @@ function YAnotepad:Show()
     local cmdNew = AceGUI:Create("Button")
     cmdNew:SetText("New Note")
     cmdNew:SetWidth(100)
-    cmdNew:SetCallback("OnClick", function(widget) YAnotepad:New(scroll) end);
+    cmdNew:SetCallback("OnClick", function(widget) YAnotepad:New(scroll) end); --luacheck: ignore 212
     frame:AddChild(cmdNew)
 
     local group = AceGUI:Create("SimpleGroup")
@@ -96,7 +95,7 @@ function YAnotepad:Show()
 
     YAnotepad:PopulateNotes(List)
 
-    frame:SetCallback("OnClose", function(widget)
+    frame:SetCallback("OnClose", function(widget) --luacheck: ignore 212
         List = nil
     end)
 end
@@ -105,13 +104,13 @@ function YAnotepad:PopulateNotes()
     if List ~= nil then
         List:ReleaseChildren()
         for i,v in ipairs(self.db.char.notes) do
-            entry = YAnotepad:CreateEntry(i, v)
+            local entry = YAnotepad:CreateEntry(i, v)
             List:AddChild(entry)
         end
     end
 end
 
-function YAnotepad:CreateEntry(id, data)
+function YAnotepad:CreateEntry(id, data) --luacheck: ignore 212
     local group = AceGUI:Create("SimpleGroup")
     group:SetLayout("Flow")
     group:SetFullWidth(true)
@@ -121,7 +120,7 @@ function YAnotepad:CreateEntry(id, data)
     icon:SetImage("Interface\\ICONS\\INV_Misc_Note_01.blp")
     icon:SetImageSize(32, 32)
     icon:SetWidth(40)
-    icon:SetCallback("OnClick", function(widget) YAnotepad:Edit(id) end)
+    icon:SetCallback("OnClick", function(widget) YAnotepad:Edit(id) end) --luacheck: ignore 212
     group:AddChild(icon)
 
     local labels = AceGUI:Create("SimpleGroup")
@@ -132,12 +131,12 @@ function YAnotepad:CreateEntry(id, data)
     label:SetText(YAnotepad:GetHeadline(data[1]))
     label:SetFont(STANDARD_TEXT_FONT, 16)
     label:SetHeight(18)
-    label:SetCallback("OnClick", function(widget) YAnotepad:Edit(id) end)
+    label:SetCallback("OnClick", function(widget) YAnotepad:Edit(id) end) --luacheck: ignore 212
     labels:AddChild(label)
 
     local dates = AceGUI:Create("InteractiveLabel")
     dates:SetText("Created: " .. data[2] .. "   Modified: " .. data[3])
-    dates:SetCallback("OnClick", function(widget) YAnotepad:Edit(id) end)
+    dates:SetCallback("OnClick", function(widget) YAnotepad:Edit(id) end) --luacheck: ignore 212
     labels:AddChild(dates)
 
     group:AddChild(labels)
@@ -145,7 +144,7 @@ function YAnotepad:CreateEntry(id, data)
     local delete = AceGUI:Create("Button")
     delete:SetText("X")
     delete:SetWidth(40)
-    delete:SetCallback("OnClick", function(widget) YAnotepad:Delete(id) end)
+    delete:SetCallback("OnClick", function(widget) YAnotepad:Delete(id) end) --luacheck: ignore 212
 
     group:AddChild(delete)
 
@@ -172,7 +171,7 @@ function YAnotepad:New()
 
     frame:SetCallback("OnClose", function(widget)
         if strlen(editbox:GetText()) > 0 then
-            data = {editbox:GetText(), date("%m-%d-%Y"), date("%m-%d-%Y")}
+            local data = {editbox:GetText(), date("%m-%d-%Y"), date("%m-%d-%Y")}
             table.insert(self.db.char.notes, data)
             YAnotepad:PopulateNotes()
         end
@@ -219,12 +218,12 @@ function YAnotepad:Delete(id)
     YAnotepad:PopulateNotes()
 end
 
-function YAnotepad:UpdateFrame(widget, frame)
+function YAnotepad:UpdateFrame(widget, frame) --luacheck: ignore 212
     frame:SetTitle(YAnotepad:GetHeadline(widget:GetText()))
     frame:SetStatusText("Length: " .. strlen(widget:GetText()))
 end
 
-function YAnotepad:GetHeadline(text)
+function YAnotepad:GetHeadline(text) --luacheck: ignore 212
     local headline = strsub(text, 0, strfind(text, "\n"))
     headline = gsub(headline, "\n", "")
     headline = strtrim(headline)
