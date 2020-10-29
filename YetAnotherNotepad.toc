@@ -1,0 +1,29 @@
+#@retail@
+## Interface: 90001
+#@end-retail@
+#@non-retail@
+## Interface: 11305
+#@end-non-retail@
+## Version: @project-version@
+## Title: YetAnotherNotepad
+## Notes: An in-game notepad
+## Author: Doadin
+## X-Credits: Nanthir
+## SavedVariables: YAnotepadDB
+## X-License: GNU General Public License (GPL) Version 2
+## X-Website: https://wow.curseforge.com/projects/YetAnotherNotepad/
+## X-Curse-Project-ID: 416221
+## OptionalDeps: Ace3
+
+#@no-lib-strip@
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\AceDB-3.0\AceDB-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\LibQTip-1.0\lib.xml
+Libs\LibStub\LibStub.lua
+#@end-no-lib-strip@
+
+
+YetAnotherNotepad.lua
